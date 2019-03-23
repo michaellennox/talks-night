@@ -29,7 +29,11 @@ module TalksNight
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    # Don't generate system test files.
-    config.generators.system_tests = nil
+    config.generators do |g|
+      g.assets false
+      g.helper false
+      g.orm :active_record, primary_key_type: :uuid
+      g.system_tests = nil
+    end
   end
 end

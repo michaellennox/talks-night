@@ -1,5 +1,8 @@
 {
   "name": "talks-night",
   "private": true,
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "bulma": "^0.7.4"
+  }
 }
