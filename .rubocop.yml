@@ -1,0 +1,20 @@
+AllCops:
+  Exclude:
+    - 'db/schema.rb'
+
+Rails:
+  Enabled: true
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/factories/**/*.rb'
+    - 'spec/**/*_spec.rb'
+
+Metrics/LineLength:
+  Max: 120
+
+Style/Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
