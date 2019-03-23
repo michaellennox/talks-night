@@ -2,3 +2,7 @@
 # yarn lockfile v1
 
 
+bulma@^0.7.4:
+  version "0.7.4"
+  resolved "https://fundingcircle.jfrog.io/fundingcircle/api/npm/npm/bulma/-/bulma-0.7.4.tgz#7e74512e9118d9799021339e67e365ee0ac4f3f9"
+  integrity sha1-fnRRLpEY2XmQITOeZ+Nl7grE8/k=

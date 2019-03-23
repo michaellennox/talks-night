@@ -1,0 +1,32 @@
+<nav class="navbar has-shadow is-spaced" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <div class="navbar-brand">
+      <%= link_to root_path, class: "navbar-item" do %>
+        <%= image_tag "logo_transparent.png", height: 28, width: 28 %>
+        <span>TalksNight</span>
+      <% end %>
+
+      <div class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="main-nav">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <div id="main-nav" class="navbar-menu">
+      <div class="navbar-start">
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <%= link_to "#", class: "button is-primary" do %>
+              <strong>Sign up</strong>
+            <% end %>
+            <%= link_to "Log in", "#", class: "button is-light" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
