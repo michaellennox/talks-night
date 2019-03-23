@@ -13,12 +13,14 @@ gem "uglifier", ">= 1.3.0"
 
 group :development, :test do
   gem "factory_bot_rails"
+  gem "faker"
   gem "pry-byebug"
   gem "rspec-rails", "~> 3.8"
 end
 
 group :test do
   gem "capybara", require: "capybara/rspec"
+  gem "shoulda-matchers"
 end
 
 group :development do
