@@ -1,0 +1,2 @@
+var $sessionForm = document.getElementById("session-form");
+$sessionForm.outerHTML = "<%= j render partial: "form", locals: { session_form: @session_form } %>";

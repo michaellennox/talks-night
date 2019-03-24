@@ -1,0 +1,2 @@
+var $userForm = document.getElementById("user-form");
+$userForm.outerHTML = "<%= j render partial: "form", locals: { user: @user } %>";
