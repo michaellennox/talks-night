@@ -24,7 +24,6 @@ class SessionForm
   def authenticate
     return if user&.authenticate(password)
 
-    errors.add(:email, "Invalid email or password")
-    errors.add(:password, "Invalid email or password")
+    errors.add(:base, "Invalid email or password")
   end
 end

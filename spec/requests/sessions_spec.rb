@@ -21,4 +21,52 @@ RSpec.describe "Sessions", type: :request do
       expect(response).to have_http_status :ok
     end
   end
+
+  describe "POST /sessions" do
+    subject(:post_sessions) { post "/sessions", params: { session: params } }
+
+    context "with valid parameters" do
+      let(:user) { FactoryBot.create(:user) }
+      let(:params) { FactoryBot.attributes_for :session_form, email: user.email, password: user.password }
+
+      it "redirects to the root" do
+        post_sessions
+
+        expect(response).to redirect_to root_path
+      end
+
+      it "sets the user id in the session" do
+        post_sessions
+
+        expect(session[:user_id]).to eq user.id
+      end
+    end
+
+    context "with invalid parameters" do
+      let(:params) { { email: "" } }
+
+      it "does not set the session key" do
+        post_sessions
+
+        expect(session[:user_id]).to be nil
+      end
+
+      it "is unprocessable" do
+        post_sessions
+
+        expect(response).to have_http_status :unprocessable_entity
+      end
+
+      it "re-renders the form with validation errors" do
+        post_sessions
+
+        expect(page).to have_css "#session-form" do |form|
+          expect(form).to have_field name: "session[email]", class: "is-danger"
+          expect(form).to have_field name: "session[password]", class: "is-danger"
+
+          expect(form).to have_content "Invalid email or password"
+        end
+      end
+    end
+  end
 end

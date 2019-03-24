@@ -1,4 +1,12 @@
 <%= bulma_form_with model: session_form, id: "session-form" do |f| %>
+  <% if session_form.errors[:base].present? %>
+    <div class="notification is-danger">
+      <% session_form.errors.full_messages_for(:base).each do |e| %>
+        <p><%= e %></p>
+      <% end %>
+    </div>
+  <% end %>
+
   <div class="field">
     <%= f.label :email, "Email", class: "label" %>
     <div class="control">

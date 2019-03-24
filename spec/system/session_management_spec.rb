@@ -25,8 +25,6 @@ RSpec.describe "Session Management", type: :system do
   end
 
   it "allows a user to login to an existing account" do
-    pending
-    
     user = FactoryBot.create(:user)
 
     visit root_path

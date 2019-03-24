@@ -11,8 +11,7 @@ RSpec.describe SessionForm, type: :model do
       form = FactoryBot.build(:session_form)
 
       expect(form.valid?).to be false
-      expect(form.errors[:email]).to include "Invalid email or password"
-      expect(form.errors[:password]).to include "Invalid email or password"
+      expect(form.errors[:base]).to include "Invalid email or password"
     end
 
     it "is invalid if password is incorrect for user" do
@@ -20,8 +19,7 @@ RSpec.describe SessionForm, type: :model do
       form = FactoryBot.build(:session_form, email: user.email)
 
       expect(form.valid?).to be false
-      expect(form.errors[:email]).to include "Invalid email or password"
-      expect(form.errors[:password]).to include "Invalid email or password"
+      expect(form.errors[:base]).to include "Invalid email or password"
     end
 
     it "is valid if correct email and password" do
