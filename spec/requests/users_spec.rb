@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Users", type: :request do
   describe "GET /users/new" do
-    subject(:get_new_user) { get new_user_path }
+    subject(:get_new_user) { get "/users/new" }
 
     it "contains a form to create a new user" do
       get_new_user
@@ -47,6 +47,12 @@ RSpec.describe "Users", type: :request do
 
     context "with invalid parameters" do
       let(:params) { { display_name: "" } }
+
+      it "does not set the session key" do
+        post_users
+
+        expect(session[:user_id]).to be nil
+      end
 
       it "is unprocessable" do
         post_users
