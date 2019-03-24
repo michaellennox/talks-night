@@ -21,14 +21,14 @@ RSpec.describe "Users", type: :request do
     subject(:post_users) { post "/users", params: { user: params } }
 
     context "with valid parameters" do
-      let(:params) { FactoryBot.attributes_for(:user) }
+      let(:params) { FactoryBot.attributes_for :user }
 
       it "creates a user with those attributes" do
-        expect { post_users }.to change(User, :count).by(1)
+        expect { post_users }.to change(User, :count).by 1
 
         user = User.last
 
-        expect(user).to have_attributes(params.except(:password))
+        expect(user).to have_attributes params.except(:password)
         expect(user.authenticate(params[:password])).to be_truthy
       end
 
@@ -47,6 +47,12 @@ RSpec.describe "Users", type: :request do
 
     context "with invalid parameters" do
       let(:params) { { display_name: "" } }
+
+      it "is unprocessable" do
+        post_users
+
+        expect(response).to have_http_status :unprocessable_entity
+      end
 
       it "does not create a user" do
         expect { post_users }.not_to change User, :count

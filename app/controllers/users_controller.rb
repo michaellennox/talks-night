@@ -8,10 +8,15 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    return render :new unless @user.save
-
-    session[:user_id] = @user.id
-    redirect_to root_path
+    respond_to do |format|
+      if @user.save
+        session[:user_id] = @user.id
+        format.any { redirect_to root_path }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.js { render status: :unprocessable_entity }
+      end
+    end
   end
 
   private
