@@ -21,7 +21,7 @@ RSpec.describe "Session Management", type: :system do
     click_on "Create User"
 
     expect(page).not_to have_link "Sign up"
-    expect(page).to have_link "Log out"
+    expect(page).to have_button "Log out"
   end
 
   it "allows a user to login to an existing account" do
@@ -47,7 +47,7 @@ RSpec.describe "Session Management", type: :system do
     end
 
     expect(page).not_to have_link "Log in"
-    expect(page).to have_link "Log out"
+    expect(page).to have_button "Log out"
   end
 
   it "allows a logged in user to log out" do
@@ -56,7 +56,7 @@ RSpec.describe "Session Management", type: :system do
 
     click_on "Log out"
 
-    expect(page).not_to have_link "Log out"
+    expect(page).not_to have_button "Log out"
     expect(page).to have_link "Log in"
   end
 end

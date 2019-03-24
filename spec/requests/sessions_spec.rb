@@ -69,4 +69,23 @@ RSpec.describe "Sessions", type: :request do
       end
     end
   end
+
+  describe "DELETE /sessions/current" do
+    subject(:delete_session) { delete "/sessions/current" }
+
+    it "removes the session id" do
+      user = FactoryBot.create(:user)
+      login(user)
+
+      delete_session
+
+      expect(session).not_to have_key(:user_id)
+    end
+
+    it "redirects to the root path" do
+      delete_session
+
+      expect(response).to redirect_to root_path
+    end
+  end
 end

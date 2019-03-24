@@ -20,7 +20,7 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <% if current_user %>
-            <%= link_to "Log out", "#", class: "button is-white" %>
+            <%= button_to "Log out", session_path("current"), method: :delete, class: "button is-white" %>
           <% else %>
             <div class="buttons">
               <%= link_to new_user_path, class: "button is-primary" do %>
