@@ -1,0 +1,98 @@
+version: 2.1
+
+executors:
+  simple:
+    docker:
+      - image: circleci/ruby:2.6-node
+        environment:
+          BUNDLER_VERSION: 2.0.1
+
+  test-env:
+    docker:
+      - image: circleci/ruby:2.6-node-browsers
+        environment:
+          BUNDLER_VERSION: 2.0.1
+      - image: circleci/postgres:11
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_DB: talks-night_test
+
+commands:
+  restore-bundler:
+    description: "Sets up bundler and restores previous deps from cache"
+    steps:
+      - run: gem install bundler
+      - run: bundle config --local path vendor/bundle
+      - restore_cache:
+          keys:
+            - v1-bundle-{{ checksum "Gemfile.lock" }}
+            - v1-bundle-
+
+  restore-yarn:
+    description: "Restores yarn dependencies from cache"
+    steps:
+      - restore_cache:
+          keys:
+            - v1-yarn-{{ checksum "yarn.lock" }}
+            - v1-yarn
+
+jobs:
+  install-bundler-dependencies:
+    executor: simple
+    steps:
+      - checkout
+      - restore-bundler
+      - run:
+          name: Install ruby dependencies
+          command: bundle install --without production
+      - save_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+  install-yarn-dependencies:
+    executor: simple
+    steps:
+      - checkout
+      - restore-yarn
+      - run: yarn install
+      - save_cache:
+          key: v1-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+
+  rspec:
+    executor: test-env
+    steps:
+      - checkout
+      - restore-bundler
+      - restore-yarn
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://127.0.0.1:5432 -timeout 120s
+      - run:
+          name: Run test suite
+          command: bundle exec rspec
+
+  rubocop:
+    executor: simple
+    steps:
+      - checkout
+      - restore-bundler
+      - run:
+          name: Run rubocop
+          command: bundle exec rubocop
+
+workflows:
+  version: 2
+  ci:
+    jobs:
+      - install-bundler-dependencies
+      - install-yarn-dependencies
+      - rspec:
+          requires:
+            - install-bundler-dependencies
+            - install-yarn-dependencies
+      - rubocop:
+          requires:
+            - install-bundler-dependencies
