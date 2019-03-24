@@ -49,4 +49,14 @@ RSpec.describe "Session Management", type: :system do
     expect(page).not_to have_link "Log in"
     expect(page).to have_link "Log out"
   end
+
+  it "allows a logged in user to log out" do
+    user = FactoryBot.create(:user)
+    login(user)
+
+    click_on "Log out"
+
+    expect(page).not_to have_link "Log out"
+    expect(page).to have_link "Log in"
+  end
 end
